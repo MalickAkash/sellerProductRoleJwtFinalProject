@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
 @Component
@@ -16,7 +17,8 @@ public class JwtUtil {
 
     private static final String SECRET_KEY = "i am akash";
 
-    private static final int TOKEN_VALIDITY = 3600 * 5;
+    // its calculation of minutes in seconds (60 seconds= 1 minute)
+    private static final int TOKEN_VALIDITY = 60;
 
     public String getSellerEmailFromToken(String token) {
         return getClaimFromToken(token, Claims::getSubject);
@@ -54,7 +56,9 @@ public class JwtUtil {
                 .setClaims(claims)
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + TOKEN_VALIDITY * 1000))
+                 /* these below two lines are same */
+                .setExpiration(new Date(System.currentTimeMillis() + TOKEN_VALIDITY * 1000)) //its calculate 1 minute only
+                //.setExpiration(new Date(System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(1))) //HERE 1 MEANS 1MINUTE
                 .signWith(SignatureAlgorithm.HS512, SECRET_KEY)
                 .compact();
     }

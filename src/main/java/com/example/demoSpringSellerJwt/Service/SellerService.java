@@ -119,10 +119,12 @@ public class SellerService {
         System.out.println("Sellers important Details:");
 
         // Here Uses for-each loop
-        for(SellerEntity list:s)
+        for(SellerEntity list : s)
             log.info(list.getSellerFirstName()+", "+list.getSellerLastName()+", "+list.getSellerEmail()+", "+list.getSellerAcType()
             +", "+list.getStatus());
-
+        /* these two lines are similar above line */
+        //log.info("sellerList : {}",list);
+        //log.info("sellerList: "+ list);
     }
 
 }
